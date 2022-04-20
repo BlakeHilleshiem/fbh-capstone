@@ -35,7 +35,7 @@
 
 # # Generate salt
 # mySalt = bcrypt.gensalt()
-
+# print("Made some changes in the file")
 # # Hash password
 # hash = bcrypt.hashpw(bytePwd, mySalt)
 
