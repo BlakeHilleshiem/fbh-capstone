@@ -1,0 +1,20 @@
+-- How to use application -- 
+
+manager test: 
+email: manager_test@email.com  
+password: manager_test
+
+user_test:
+user test: user_test@email.com
+password: user_test
+
+
+inactive_test:
+slackn@email.com
+slack
+
+
+mine is password1
+
+note: login and system won't work if email contains coma:',' or quotation mark: '"'
+note: email to login is cap sensitive

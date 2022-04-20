@@ -1,0 +1,8 @@
+user_id,first_name,last_name,phone,email,active,date_created,hire_date,user_type
+1,Foster,Hilleshiem,888-888-8888,blakes_email@email.com,1,2022-01-23 10:00:00,2022-01-23 10:00:00,manager
+2,Mr.,Employee,555-555-5556,workers_email@email.com,1,2022-01-23 10:00:00,2022-01-23 10:00:00,user
+3,manager,test,,manager_test@email.com,1,2022-01-23 10:00:00,2022-01-23 10:00:00,manager
+4,User,Testerton II,555-555-5555,user_test@email.com,1,,,user
+5,Ernest,,,ernest@email.com,1,,,user
+6,Mr.,Slacker,,slackn@email.com,0,,,user
+7,Test Add,test add,999-999-9999,test_add@email.com,1,2022-04-13 12:16:58,2022-01-10 10:00:00,user
