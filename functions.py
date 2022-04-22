@@ -152,7 +152,7 @@ def view_assessments(user_id_str):
                 print(f' {header[i]:{column_sizes[i] + 2}}', end = '')
         except:
             os.system('clear')
-            print('-- You have no assessments to display --')
+            print('-- There are no assessments to display --')
             input('\n-- <enter> to continue --\n')
             os.system('clear')
             return 'error'
@@ -369,6 +369,12 @@ def view_comp_sum(str_user_id):
     WHERE car.user_id = ?
     ''', (user_id))
 
+    # print(rows)
+    # print()
+    # print()
+    # if rows == []:
+    #     rows == [0]
+
     lst_results = []
     for i in rows:
         lst_results.append(i)
@@ -379,6 +385,11 @@ def view_comp_sum(str_user_id):
     for i in comp:
         lst_comp.append(str(i).replace(',','').strip('()').strip('\'\''))
 
+
+    # print('lst_results: ',lst_results)
+    # lst_results = [(7,'Test','Add','Verbal Communication',0,'999-999-9999','test_add@email.com')]
+    print()
+    # print('lst_comp',lst_comp)
     # print()
     # print(lst_results)
     data = list(lst_results[0])
@@ -449,7 +460,7 @@ def view_comp_sum(str_user_id):
         print(f" {i} {'.'* (28-length)} {most_recent(i,lst_results)}")
     print()
 
-
+# view_comp_sum('1')
 # view_comp_sum('1')
 
 
@@ -1078,6 +1089,11 @@ def mngr_add(sel):
             lst_values.append(int_pk_check(i,table))
             continue
 
+        if i == 'test_result_id':
+            os.system('clear')
+            lst_values.append(None)
+            continue
+
         if i == 'email':
             os.system('clear')
             while True:
@@ -1153,12 +1169,15 @@ def mngr_add(sel):
         if i == 'user_id' and table == 'Competency_Assessment_Results':
             os.system('clear')
             while True:
+                format_to_table(cursor.execute('SELECT user_id, first_name, last_name FROM Users').fetchall())
+                print()
+                print()
                 ans = input("Enter a user id: ")
                 if ans == '':
                     os.system('clear')
                     print('-- Error: field cannot be blank --\n')
                     continue
-                if check_valid_fk(i,table,ans) == 'error':
+                if check_valid_fk(i,'Users',ans) == 'error':
                     os.system('clear')
                     print('-- Error: user_id not found --\n')
                     continue
@@ -1170,12 +1189,15 @@ def mngr_add(sel):
         if i == 'assessment' and table == 'Competency_Assessment_Results':
             os.system('clear')
             while True:
+                format_to_table(cursor.execute("SELECT assessment_id, name FROM Competency_Assessment_Data").fetchall())
+                print()
+                print()
                 ans = input("Enter an assessment id: ")
                 if ans == '':
                     os.system('clear')
                     print('-- Error: field cannot be blank --\n')
                     continue
-                if check_valid_fk(i,table,ans) == 'error':
+                if check_valid_fk('assessment_id','Competency_Assessment_Data',ans) == 'error':
                     os.system('clear')
                     print('-- Error: assessment_id not found. Must select an active test --\n')
                     continue
@@ -1281,12 +1303,14 @@ def mngr_add(sel):
     # print(tuple_values)
     
     os.system('clear')
+    print(names)
+    print(lst_values)
     create_preview(names,lst_values)
 
     conf = input('Add this record to the database? \n (y) yes   (n) no \n\n>>> ')
     if conf.lower() == 'y':
         cursor.execute(f'INSERT INTO {table} ({str_lst_fields}) VALUES {data_bind}',tuple_values)
-        # connection.commit()
+        connection.commit()
         os.system('clear')
         print('\n-- Record Added --\n')
     else:
