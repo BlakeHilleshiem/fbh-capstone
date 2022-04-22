@@ -91,13 +91,14 @@ while True:
             if next_act == '':
                 # os.system('clear')
                 print('\n-- Goodbye --\n')
-                sleep(2)
+                sleep(1)
                 os.system('clear')
                 break
             
             elif next_act == '1':
                 os.system('clear')
                 view_all_users()
+                print()
                 input('\n-- <enter> to continue --\n')
                 os.system('clear')
             
@@ -114,22 +115,27 @@ while True:
                 lst_results = []
                 for i in rows:
                     lst_results.append(i)
+                print("Enter the competency id of the report you'd like to view: \n")
                 format_to_table(lst_results)
                 try:
-                    comp = input("Enter the competency id of the report you'd like to view: ")
+                    comp = input(">>> ")
                     os.system('clear')
                     comp_result_sum(comp)
                     input('\n-- <enter> to continue --\n')
                     os.system('clear')
                 except:
-                    input('-- Error Unkown Competency id entered. --\n -- <enter> to continue --\n')
+                    input('-- Error Unkown Competency id entered. --\n\n -- <enter> to continue --\n')
                     os.system('clear')
                     pass
 
             elif next_act == '4':
                 os.system('clear')
                 try:
-                    user_id = input('Enter the user id of the summary you wish to view: ')
+                    print('Enter the user id of the report you wish to view: \n')
+                    format_to_table(cursor.execute('SELECT user_id, first_name, last_name FROM Users').fetchall())
+                    user_id = input('>>> ')
+                    # user_id = input('Enter the user id of the summary you wish to view: ')
+                    os.system('clear')
                     view_comp_sum(user_id)
                     input('\n-- <enter> to continue --\n')
                     os.system('clear')
@@ -141,7 +147,9 @@ while True:
             
             elif next_act == '5':
                 os.system('clear')
-                user_id = input('Enter the user id of the summary you wish to view: ')
+                print('Enter the user id of the summary you wish to view: \n')
+                format_to_table(cursor.execute('SELECT user_id, first_name, last_name FROM Users').fetchall())
+                user_id = input('>>> ')
                 print()
                 if view_assessments(user_id) == 'error':
                     pass
@@ -155,6 +163,7 @@ while True:
                     table_sel = input('''What would you like to add? \n(1) new user \n(2) new competency \n(3) new assessment for competency \n(4) new assessment result for a user \n\n <enter> to return to main menu\n\n>>> ''')
                     
                     if table_sel == '':
+                        os.system('clear')
                         break
                     
                     if table_sel == '1':
@@ -339,22 +348,51 @@ while True:
                         break    
             
             elif next_act == '8':
-                print('Remove function coming...')
+                os.system('clear')
+                while True:
+                    delete_assessment()
+                    cont = input('Delete a different assessment? \n (y) yes   (n) no \n\n>>> ')
+                    if cont.lower() == 'y':
+                        # print('yes')
+                        os.system('clear')
+                        continue
+                    else:
+                        # print('no')
+                        os.system('clear')
+                        break
+
+                # while True:
+                #     delete_assessment()
+                #     cont = input('Delete a different assessment? \n (y) yes (n) no \n\n>>> ')
+                #     print(cont.lower())
+                #     input('enter to continue')
+                    
+                #     if cont.lower == 'y':
+                        
+                #         os.system('clear')
+                #     else:
+                #         os.system('clear')
+                #         break
 
             elif next_act == '9':
                 os.system('clear')
                 while True:
                     generate_csv()
-                    cont = input('Generate another CSV? \n (y) yes (n) no \n\n>>> ')
-                    if cont.lower == 'y':
+                    cont = input('Generate a different csv? \n (y) yes   (n) no \n\n>>> ')
+                    if cont.lower() == 'y':
+                        # print('yes')
                         os.system('clear')
                         continue
                     else:
+                        # print('no')
                         os.system('clear')
                         break
 
             elif next_act == '10': 
-                print('Import CSV File coming... ')
+                os.system('clear')
+                import_csv()
+                input('<enter> to continue \n')
+                os.system('clear')
             
             
             else:
@@ -380,7 +418,7 @@ while True:
             if next_act.lower() == '':
                 # os.system('clear')
                 print('\n-- Goodbye --\n')
-                sleep(2)
+                sleep(1)
                 os.system('clear')
                 break
 
@@ -418,7 +456,7 @@ while True:
     elif user_check == 'close program':
         # os.system('clear')
         print('\n-- Goodbye --\n')
-        sleep(2)
+        sleep(1)
         os.system('clear')
 
     break

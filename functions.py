@@ -14,18 +14,6 @@ from datetime import datetime
 dateTimeObj = datetime.now()
 timestamp_str = dateTimeObj.strftime("%Y-%m-%d %H:%M:%S")
 
-# print(timestamp_str)
-
-# from datetime import date, time, datetime
-# today = date.today()
-# now = datetime.now()
-# current_time = time(now.hour, now.minute, now.second)
-# now_datestamp = datetime.combine(today, current_time)
-
-# print(today,current_time)
-
-
-
 
 def verify_user():
     while True:
@@ -48,12 +36,10 @@ def verify_user():
             print(' ** (or double <enter> to close program) ** \n')
 
         row = cursor.execute('SELECT email, password, user_type, active, user_id FROM Users WHERE email = ?',(email,))
-        # check = []
+
         
         for i in row:
             check = list(i)
-
-        # print(check)
 
         try:
             if check[0] == email and bcrypt.checkpw(byte_pwd, check[1]) == True:
@@ -62,12 +48,7 @@ def verify_user():
                 elif check[2]== 'manager':
                     return ['manager',check[4]]
                 else:
-                    print('-- User has not been assigned a user_type --\n')
-
-            # elif check[0] == email and bcrypt.checkpw(byte_pwd, check[1]) != True:
-            #     os.system('clear')
-            #     print('** Unrecognized login. Please enter valid email and password. **')
-            #     print(' ** (or double <enter> to close program) ** \n')
+                    print('-- User has not been assigned a user type --\n')
 
             elif check[3] == 0:
                 print('-- Invalid login. Account is inactive. -- ')
@@ -77,34 +58,12 @@ def verify_user():
                 os.system('clear')
                 print('** Unrecognized login. Please enter valid email and password. **')
                 print(' ** (or double <enter> to close program) ** \n')
-
-            # elif email == '' and password == '':
-            #         return 'close program'
-
-
-        # except:
-            # try:
-                # if check[3] == 0:
-                #     print('-- Invalid login. Account is inactive. -- ')
-                #     return('close program')
-                
-                # elif check[0] != email or bcrypt.checkpw(byte_pwd, check[1]) != True:
-                #     os.system('clear')
-                #     print('** Unrecognized login. Please enter valid email and password. **')
-                #     print(' ** (or double <enter> to close program) ** \n')
-
-            #     elif email == '' and password == '':
-            #         return 'close program'
-                
-
-            # except:
-            #     if email == '' and password == '':
-            #         return 'close program'
                     
         except:
             pass
-            # if email == '' and password == '':
-            #     return 'close program'
+
+
+
 
 def format_to_table(fetchall_qry):
     rows = fetchall_qry
@@ -150,59 +109,6 @@ def format_to_table(fetchall_qry):
                 print(f' {str(e[i]):{column_sizes[i] + 2}}', end = '')
 
 
-# def format_to_table(lst_of_tuple_query_results):
-#     tuple_query_results = lst_of_tuple_query_results
-#     header = []
-#     column_sizes = []
-
-#     names = list(map(lambda x: x[0], cursor.description))
-#     for i in names:
-#         header.append(str(i).replace('_',' ').title())
-
-#     for i in range(len(names)):
-#         count = 1
-#         max_col_len = 0
-#         for column in tuple_query_results: 
-#             if max_col_len < len(str(column[i])):
-#                 max_col_len = len(str(column[i]))
-
-#             if count == len(tuple_query_results):
-#                 column_sizes.append(max_col_len)
-
-#             count += 1
-
-#     for i in range(len(names)):
-#         if column_sizes[i] < len(str(header[i])):
-#             print(f' {header[i]:{len(str(header[i])) + 2}}', end = '')
-#         else:
-#             print(f' {header[i]:{column_sizes[i] + 2}}', end = '')
-#     print()
-
-#     for i in range(len(names)):
-#         if column_sizes[i] < len(str(header[i])):
-#             print('','-' * (len(str(header[i])) + 2), end = '')
-#         else:
-#             print('','-' * (column_sizes[i] + 2), end = '')
-
-#     for e in tuple_query_results:
-#         print()
-#         for i in range(len(names)):
-#             if column_sizes[i] < len(str(header[i])):
-#                 print(f' {str(e[i]):{len(str(header[i])) + 2}}', end = '')
-#             else:
-#                 print(f' {str(e[i]):{column_sizes[i] + 2}}', end = '')
-#     print()
-#     print()
-
-# rows = list(cursor.execute('SELECT competency_id, name FROM Competencies'))
-# format_to_table(rows)
-# rows = list(cursor.execute('SELECT competency_id, name FROM Competencies'))
-# # query = []
-# # for i in rows:
-# #     query.append(i)
-
-# format_to_table(rows)
-
 
 
 def view_assessments(user_id_str):
@@ -245,6 +151,7 @@ def view_assessments(user_id_str):
             else:
                 print(f' {header[i]:{column_sizes[i] + 2}}', end = '')
         except:
+            os.system('clear')
             print('-- You have no assessments to display --')
             input('\n-- <enter> to continue --\n')
             os.system('clear')
@@ -698,7 +605,7 @@ def comp_result_sum(str_comp_id):
     count = 0
     for i in lst_users:
         try:
-            print(f" {i[0]:^7}   {(str(i[1]) + ' ' + str(i[2])):20} {most_recent_2(lst_user_id[count], competency_type,lst_result)[0]:8} {most_recent_2(lst_user_id[count], competency_type,lst_result)[1]:35} {most_recent_2(lst_user_id[count], competency_type,lst_result)[2]}")
+            print(f" {i[0]:^7}   {(str(i[1]) + ' ' + str(i[2])):20} {str(most_recent_2(lst_user_id[count], competency_type,lst_result)[0]):8} {most_recent_2(lst_user_id[count], competency_type,lst_result)[1]:35} {most_recent_2(lst_user_id[count], competency_type,lst_result)[2]}")
             count += 1
         except:
             print(f" {i[0]:^7}   {(str(i[1]) + ' ' + str(i[2])):20} {'0':8} {'':35} {''}")
@@ -1697,10 +1604,59 @@ def mngr_update(table,identifier):
         print('-- Action Cancelled --\n')
 
 
+def delete_assessment():
+    os.system('clear')
+    while True:
+        print("Enter the test result id of the record you would like to delete: \n")
+        format_to_table(cursor.execute("""SELECT car.user_id as 'User Id', u.first_name as 'Employee Name', car.assessment as 'Assmt Id', cad.name as 'Assessment Name', car.score as 'Score', car.date_taken as 'Date Taken', car.test_result_id as 'Test Result Id'
+        FROM Competency_Assessment_Results as car
+        JOIN Competency_Assessment_Data as cad
+        ON car.assessment = cad.assessment_id
+        JOIN Users as u
+        ON car.user_id = u.user_id;""").fetchall())
+        print()
+        select = input('\n>>> ')
+
+        if select == '':
+            os.system('clear')
+            return
+
+        if check_valid_fk('test_result_id','Competency_Assessment_Results',select) == 'all good':
+            os.system('clear')
+            break
+        else:
+            os.system('clear')
+            print('-- Error: unrecognized test result id --\n')
+    
+    format_to_table(cursor.execute("""SELECT car.user_id as 'User Id', u.first_name as 'Employee Name', car.assessment as 'Assmt Id', cad.name as 'Assessment Name', car.score as 'Score', car.date_taken as 'Date Taken', car.test_result_id as 'Test Result Id'
+    FROM Competency_Assessment_Results as car
+    JOIN Competency_Assessment_Data as cad
+    ON car.assessment = cad.assessment_id
+    JOIN Users as u
+    ON car.user_id = u.user_id 
+    WHERE test_result_id = ?""",(select,)).fetchall())
+    print()
+    print()
+    conf = input('Delete this record from the database? \n (y) yes   (n) no \n\n>>> ')
+    
+    if conf.lower() == 'y':
+        cursor.execute('DELETE FROM Competency_Assessment_Results WHERE test_result_id == ?',(select,))
+        connection.commit()
+        os.system('clear')
+        print('-- Record Deleted --\n')
+    else:
+        os.system('clear')
+        print('-- Action Cancelled --\n')
+
+# delete_assessment()
 # mngr_update('Competency_Assessment_Results','1')
 
 def generate_csv():
     user_sel = input('Select which file you would like to export: \n (1) Competencies \n (2) Competency Assessment Data \n (3) Users \n (4) Compentcy Assessment Results\n\n>>> ')
+
+    if user_sel == '':
+        os.system('clear')
+        return
 
     if user_sel == '1':
         data = cursor.execute("SELECT * FROM Competencies")
@@ -1773,484 +1729,73 @@ def generate_csv():
 # def import_csv():
 
 def import_csv():
-    with open('Comp_Assess_Results.csv', 'r') as csvfile:
-        results = []
-        for line in csvfile:
-            words = line.split(',')
-            results.append(words)
-        #     results.append((words[0], words[1:]))
-        results.pop(0)
-        # print(results)
-        print(type(results))
-        
-        for i in results:
-            try:
-                i = list(i)
-                print(i[0],i[1],i[2],i[3])
-                cursor.execute(f'''INSERT INTO Competency_Assessment_Results (user_id, assessment_id,score, date_taken) VALUES (?,?,?,?)''',(i[0],i[1],i[2],i[3]))
-            except:
-                continue
+    conf = input('Import data from the Import_Comp_Results.csv? \n*** NOTE: This will permanately delete currently existing data in the Competency Assessement Results table.\n\n (y) yes   (n) no \n\n>>> ')
+
+    if conf.lower() == 'y':
+        with open('Import_Comp_Results.csv', 'r') as csvfile:
+            results = []
+            for line in csvfile:
+                words = line.split(',')
+                results.append(words)
+
+            num_values = len(results.pop(0))
+
+            cursor.execute("PRAGMA foreign_keys = OFF;")
+            cursor.execute('DROP TABLE Competency_Assessment_Results;')
+            cursor.execute("""CREATE TABLE Competency_Assessment_Results (
+            'user_id' INTEGER,
+            'assessment' INTEGER,
+            'score' INTEGER,
+            'date_taken' TEXT NOT NULL,
+            'manager' INTEGER,
+            'test_result_id' INTEGER PRIMARY KEY,
+            FOREIGN KEY (user_id) REFERENCES Users (user_id),
+            FOREIGN KEY (assessment) REFERENCES Competency_Assessment_Data (assessment_id),
+            FOREIGN KEY (score) REFERENCES Scores (score),
+            FOREIGN KEY (manager) REFERENCES Users (user_id));""")
+
+            if num_values == 4:
+                for i in results:
+                    try:
+                        i = list(i)
+                        # print(i[0],i[1],i[2],i[3])
+                        cursor.execute(f'''INSERT INTO Competency_Assessment_Results (user_id, assessment,score, date_taken) VALUES (?,?,?,?)''',(i[0],i[1],i[2],i[3]))
+                    except:
+                        continue
+                cursor.execute('PRAGMA foreign_keys = ON;')
+                connection.commit()
+                os.system('clear')
+                print('-- Data Imported --\n')
+
+            if num_values == 5:
+                for i in results:
+                    try:
+                        i = list(i)
+                        # print(i[0],i[1],i[2],i[3])
+                        cursor.execute(f'''INSERT INTO Competency_Assessment_Results (user_id, assessment,score, date_taken,manager) VALUES (?,?,?,?,?)''',(i[0],i[1],i[2],i[3],i[4]))
+                    except:
+                        continue
+                cursor.execute('PRAGMA foreign_keys = ON;')
+                connection.commit()
+                os.system('clear')
+                print('-- Data Imported --\n')
+            
+            if num_values == 6:
+                for i in results:
+                    try:
+                        i = list(i)
+                        # print(i[0],i[1],i[2],i[3])
+                        # print(i[4])
+                        # input('enter to continue')
+                        cursor.execute(f'''INSERT INTO Competency_Assessment_Results (user_id, assessment,score, date_taken,manager,test_result_id) VALUES (?,?,?,?,?,?)''',(i[0],i[1],i[2],i[3],i[4],i[5]))
+                    except:
+                        continue
+                cursor.execute('PRAGMA foreign_keys = ON;')
+                connection.commit()
+                os.system('clear')
+                print('-- Data Imported --\n')
+            
+    else:
+        os.system('clear')
+        print('-- Action Cancelled --\n')
 
-
-# user_id
-# assessment_id
-# score
-# date_taken
-
-
-
-
-# user_id
-# first_name
-# last_name
-# phone
-# email
-# password
-# active
-# date_created
-# hire_date
-# user_type
-
-# def import_csv():
-#     user_sel = input("Enter the csv file you'd like to import: (1) Assessment Results ")
-
-
-
-
-
-
-
-
-
-
-
-
-# data = cursor.execute("""SELECT * FROM Competencies""")
-# names = list(map(lambda x: x[0], cursor.description))
-
-# lst_of_lsts = [names]
-
-# for i in data:
-#     lst_of_lsts.append(list(i))
-
-# print(lst_of_lsts)
-
-
-
-
-
-# import csv
-# create scv file:
-
-
-# read the data base line by line
-
-# write into a csv file in comma seperated format:
-
-# rows = [
-#     ['Jim','Halpert','Sales Rep','10/20/1979'],
-#     ['Michael', 'Scott', 'Regional Manager', '08/16/1962'],
-#     ['Pam','Beesly', 'Receptionist', '03/07/1974'],
-#     ['Dwight','Schrute', 'Assistant to the Regional Manager', '01/20/1966']
-# ]
-
-# with open('employee.csv', 'w') as employee_csv:
-#     wrt = csv.writer(employee_csv)
-
-#     wrt.writerows(rows)
-
-
-
-
-
-
-
-
-
-
-# CSV Export
-# Your application should allow for CSV export of at least two lists. For example, you may want to export the User list or the Competencies list. You will produce a valid CSV file containing the information from the list.
-
-# Include a Header Row with field names in your CSV file.
-
-
-
-
-# CSV Import
-# Your application should provide the ability to import a CSV file for Assessment Results. This CSV file would contain the following columns:
-
-# user_id
-# assessment_id
-# score
-# date_taken
-# and any others you think might be helpful.
-
-# This import will read the CSV file and add records to the Assessment Results table in the database.
-
-
-
-# --- error if all blank?
-
-# eg = ['date_created','hire_date']
-
-
-# for i in eg:
-#     print(i)
-#     if 'date' in i:
-#         print('yeah')
-
-# cursor.execute(f'INSERT INTO Competencies (competency_id, name, date_created) VALUES (?,?,?)',('22', 'Test Add', '2022-04-31 10:10:00'))
-
-# str_lst_values = ['1','2','3']
-# print(str(str_lst_values).strip('[]'))
-
-
-
-# add a user
-# add a new competency
-# add a new assessment to a competency
-# add an assessment result for a user for an assessment (this is like recording test results for a user)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# --------------------------------------------------------------------------------------------------------------------------#################
-
-# timestampStr = dateTimeObj. strftime("%d-%b-%Y (%H:%M:%S.%f)") ...
-# dateTimeObj = datetime. now() ...
-# dateStr = dateTimeObj. strftime("%d %b %Y ") ...
-# timeStr = dateTimeObj. strftime("%H:%M:%S.%f") ...
-# dateStr = dateTimeObj.
-
-
-
-
-# from datetime import date, time, datetime
-
-# today = date.today()
-# now = datetime.now()
-# current_time = time(now.hour, now.minute, now.second)
-
-# now_datestamp = datetime.combine(today, current_time)
-
-
-# user_fields = {
-    # '1':'user_id',
-    # '2':'first_name',
-    # '3':'last_name',
-    # '4':'phone',
-    # '5':'email',
-    # '6':'password',
-    # '7':'active',
-    # '8':'date_created',
-    # '9':'hire_date',
-    # '10':'user_type'
-    #     }
-
-    # competency_fields = {
-    # '1':'competency_id',
-    # '2':'name',
-    # '3':'date_created'
-    # }
-
-    # scores_fields = {
-    # '1':'score',
-    # '2':'description'
-    # }
-
-    # comp_assess_res = {
-    # '1':'assessment_id',
-    # '2':'name',
-    # '3':'date_created',
-    # '4':'competency_type'
-    # }
-
-    # comp_assess_res = {
-    # '1':'user_id',
-    # '2':'assessment',
-    # '3':'score',
-    # '4':'date_taken',
-    # '5':'manager',
-    # '6':'test_result_id'
-    # }
-
-
-
-
-# os.system('clear')
-# # try:
-# user_id = input('Enter the user id of the summary you wish to view: ')
-# view_comp_sum(user_id)
-# input('\n-- <enter> to continue --\n')
-# os.system('clear')
-# # except:
-# #     print('error')
-    
-
-
-
-# print(check_email('slackn@email.com'))
-
-
-
-
-
-
-
-
-# view_assessments()
-
-
-# rows = list(cursor.execute('SELECT * FROM Competencies'))
-# lst_result = []
-# for i in rows:
-#     lst_result.append(i)
-# format_to_table(lst_result)
-# print()
-
-# rows = list(cursor.execute('SELECT competency_id, name FROM Competencies'))
-# lst_results = []
-# for i in rows:
-#     lst_results.append(i)
-# format_to_table(lst_results)
-
-
-
-
-
-
-# view_comp_sum('4')
-# comp_result_sum('1')
-
-
-
-
-
-
-
-
-
-
-
-
-# lst_data = [user_id, data[1] + ' ' + data[2], avg_comp_score, data[5], data[6]]
-
-# column_sizes = []
-# for i in lst_data:
-#     column_sizes.append(len(i))
-
-# # print(column_sizes)
-# print()
-# count = 0
-# for i in column_sizes:
-#     if i < len(lst_headers[count]):
-#         print(f"{lst_headers[count]:{len(lst_headers[count])+2}}", end = '')
-#     else:
-#         print(f"{lst_headers[count]:{i+2}}", end = '')
-#     count += 1
-# print()
-# count = 0
-# for i in column_sizes:
-#     if i < len(lst_headers[count]):
-#         print(f"{'-'*(len(lst_headers[count])+1):{len(lst_headers[count])+2}}", end = '')
-#     else:
-#         print(f"{'-'*(i+1):{i+2}}", end = '')
-#     count += 1
-# print()
-# count = 0
-# for i in column_sizes:
-#     if i < len(lst_headers[count]):
-#         print(f"{lst_data[count]:{len(lst_headers[count])+2}}", end = '')
-#     else:
-#         print(f"{lst_data[count]:{i+2}}", end = '')
-#     count += 1
-# print()
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
-
-
-
-# user_id = '4'
-# rows = cursor.execute('''SELECT car.user_id, u.first_name, u.last_name, c.name, car.score, u.phone, u.email, car.date_taken
-# FROM Competency_Assessment_Results as car
-# JOIN Competency_Assessment_Data as cad
-# ON car.assessment = cad.assessment_id
-# JOIN Competencies as c
-# ON cad.competency_type = c.competency_id
-# JOIN Users as u
-# ON car.user_id = u.user_id
-# WHERE car.user_id = ?
-# ''', (user_id))
-
-# most_recent('Data Types',rows)
-
-# print(max(['2022-02-01 10:00:00', '2022-03-01 10:00:00']))
-
-# try:
-#         if int(update_num) > 0 and int(update_num) < 6:
-#             for i in input_dict:
-#                 if i == str(update_num):
-#                     update_field = input_dict[i]
-
-#             while True:
-#                 new_value = input(f'\nEnter the new {str(edit_fields[int(update_num)-1]).lower()}: ')
-#                 if update_num == '4' and new_value == '':
-#                     print('\n-- Error: this field cannot be blank --')
-#                     continue
-#                 else:
-#                     break
-
-#             print(f'''
-# Update the {str(edit_fields[int(update_num)-1]).lower()} to {new_value}?
-#     (y) yes   (n) no
-#             ''')
-#             conf = input('>>> ')
-
-#             if conf.lower() == 'y':
-#                 cursor.execute(f'UPDATE Users SET {update_field} = ? WHERE user_id = ?',(new_value,user_id))
-#                 print('\n-- User updated --\n')
-#                 break
-#             else:
-#                 print('\n-- Action Cancelled --\n')
-
-#         else:
-#            print('\n-- Error: invalid option. --\n') 
-           
-#     except:
-#         if update_num == '':
-#             break
-
-
-
-
-# def user_options():
-#     print(''' 
-# What would you like to do? (<enter> to close program)
-#    (1) View assessments
-#    (2) View list of all competencies
-#    (3) Edit user info
-#    ''')
-#     next_act = input('>>> ')
-#     return next_act
-
-# --- quick check credentials -- for developer
-# email = input('email: ')
-# row = cursor.execute('SELECT email, password, user_type FROM USERS WHERE email = ?',(email,))
-
-# check = []
-# for i in row:
-#     check = list(i)
-
-# print(check)
-# -------------------
-
-# password = b"password1"
-# hashed = bcrypt.hashpw(password, bcrypt.gensalt())
-
-# cursor.execute('UPDATE Users SET password = ? WHERE user_id = 1',(hashed,))
-
-# query = cursor.execute('SELECT email, password, user_type, acitve FROM Users WHERE user_id = 1')
-
-# for i in query:
-#     check = list(i)
-
-
-# # password = b"password1"
-
-# # Hash a password for the first time, with a randomly-generated salt
-# # hashed = bcrypt.hashpw(password, bcrypt.gensalt())
-# # print(password)
-# # print(hashed)
-
-# hashed = b'$2b$12$hgTQn.NK98I8rB8jdSL3se/ZzHubRplAP/NspIm6aQNPlhwxa0qRO'
-
-
-# # Check that an unhashed password matches one that has previously been
-# # hashed
-
-# if bcrypt.checkpw(password, hashed):
-#     print("It Matches!")
-# else:
-#     print("It Does not Match :(")
-
-
-
-
-
-def update_pass(user_id):
-    password = input('Enter new password: ')
-    byte_pwd = password.encode('utf-8')
-    my_salt = bcrypt.gensalt()
-    hash_pw = bcrypt.hashpw(byte_pwd,my_salt)
-    print(hash_pw)
-    cursor.execute('UPDATE Users SET password = ? WHERE user_id = ?',(hash_pw,user_id))
-    connection.commit()
-
-
-
-
-# update_pass(1)
-
-
-
-
-# password = 'MyPassWord'
-
-# bytePwd = password.encode('utf-8')
-
-# print(bytePwd)
-
-# # Generate salt
-# mySalt = bcrypt.gensalt()
-
-# # Hash password
-# hash = bcrypt.hashpw(bytePwd, mySalt)
-
-# print(hash)
-
-# # in_database = str(cursor.fetchone())
-# in_database = '$2b$12$EjfB5LPR8F6V71VT4q3g0uD0.Peng1IQ/qY2s/sn460x/Yqnd/hGC'.encode('utf-8')
-
-# # print(bcrypt.checkpw(bytePwd, in_database))
-
-# if bcrypt.checkpw(bytePwd, in_database) == True:
-#     print('True')
-
-# --------how to access and compare passwords in database:
-
-# byte_pwd = 'user_test'.encode('utf-8')
-# in_database = cursor.execute('SELECT password FROM Users WHERE user_id = 4').fetchone()
-# in_database = list(in_database)
-
-
-# print(bcrypt.checkpw(byte_pwd, in_database[0]))

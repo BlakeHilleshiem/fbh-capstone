@@ -1,17 +1,29 @@
 -- How to use application -- 
 
+You can use the following logins to test the options:
 manager test: 
-email: manager_test@email.com  
-password: manager_test
+    email: manager_test@email.com  
+    password: manager_test
 
 user_test:
-user test: user_test@email.com
-password: user_test
-
+    email: user_test@email.com
+    password: user_test
 
 inactive_test:
-slackn@email.com
-slack
+    email: slackn@email.com
+    password: slack
+
+
+
+
+
+
+
+Note: I've been noticing that some of the parts of my program will occasionally not peform as intended. 
+Issues being my while loops on my option functions being ignored
+or partial input in my sql insert commands. I'm not sure if has to do with the size of the program or my computer's capacity to handle it. 
+Just thought I'd mention if you come accross it. 
+
 
 
 mine is password1

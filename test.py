@@ -1,3 +1,83 @@
+# import sqlite3
+# connection = sqlite3.connect('competency_tracker.db')
+# cursor = connection.cursor()
+
+import csv
+
+# The following function can be used to generate the Import_Comp_Results.csv
+#   lst_of_lsts can be replaced with whatever data you'd like to fill the Import_Comp_Results.csv with
+# ** Note:
+#  user_id, assessment_id, score must be valid foreign keys or it will error
+#  date_taken cannot be empty or it will error
+
+def generate_import():
+    with open('Import_Comp_Results.csv','w') as import_csv:
+        lst_of_lsts = [
+            ['user_id','assessment_id','score','date_taken'],
+            [1, 1, '4', '2022-01-15 10:00:00', 3, 1], 
+            [1, 2, '4', '2022-01-15 10:00:00', 3, 2], 
+            [1, 3, '4', '2022-01-15 10:00:00', 3, 3], 
+            [2, 1, '3', '2022-04-05 10:08:00', 1, 4], 
+            [2, 2, '1', '2022-04-05 10:08:00', 1, 5],
+            [2, 2, '4', '2022-04-29 10:00:00', 1, 6], 
+            [4, 1, '1', '2022-02-01 10:00:00', 1, 7], 
+            [4, 1, '3', '2022-03-01 10:00:00', 1, 8], 
+            [4, 2, '4', '2022-02-01 10:00:00', 1, 9], 
+            [4, 3, '3', '2022-03-10 10:00:00', 1, 10], 
+            [1, 1, '4', '2022-02-21 11:00:00', None, 11]
+            ]
+
+        wrt = csv.writer(import_csv)
+        wrt.writerows(lst_of_lsts)
+
+# generate_import()
+
+
+
+
+
+
+
+
+# original data -- 
+lst_of_lsts = [
+    ['user_id', 'assessment', 'score', 'date_taken', 'manager', 'test_result_id'], 
+    [1, 1, '4', '2022-01-15 10:00:00', 3, 1], 
+    [1, 2, '4', '2022-01-15 10:00:00', 3, 2], 
+    [1, 3, '4', '2022-01-15 10:00:00', 3, 3], 
+    [2, 1, '3', '2022-04-05 10:08:00', 1, 4], 
+    [2, 2, '1', '2022-04-05 10:08:00', 1, 5],
+    [2, 2, '4', '2022-04-29 10:00:00', 1, 6], 
+    [4, 1, '1', '2022-02-01 10:00:00', 1, 7], 
+    [4, 1, '3', '2022-03-01 10:00:00', 1, 8], 
+    [4, 2, '4', '2022-02-01 10:00:00', 1, 9], 
+    [4, 3, '3', '2022-03-10 10:00:00', 1, 10], 
+    [1, 1, '4', '2022-02-21 11:00:00', None, 11]]
+[
+[1, 1, '4', '2022-01-15 10:00:00'],
+[1, 1, '4', '2022-01-15 10:00:00'],
+[1, 3, '4', '2022-01-15 10:00:00'],
+[4, 1, '1', '2022-02-01 10:00:00'],
+[2, 2, '1', '2022-04-05 10:08:00']
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # https://stackoverflow.com/questions/61353255/getting-a-password-to-matches-with-its-hash-in-a-login-function-using-python-sq
 
 # try-except blocks
@@ -261,13 +341,13 @@ def view_comp_sum(str_user_id):
         print(f" {i} {'.'* (28-length)} {most_recent(i,lst_results)}")
     print()
 
-os.system('clear')
-# try:
-# user_id = input('Enter the user id of the summary you wish to view: ')
-view_comp_sum('3')
-input('\n-- <enter> to continue --\n')
-os.system('clear')
-# except:
-#     print('error')
+# os.system('clear')
+# # try:
+# # user_id = input('Enter the user id of the summary you wish to view: ')
+# view_comp_sum('3')
+# input('\n-- <enter> to continue --\n')
+# os.system('clear')
+# # except:
+# #     print('error')
 
 
