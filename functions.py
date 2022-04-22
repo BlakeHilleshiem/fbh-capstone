@@ -15,6 +15,8 @@ dateTimeObj = datetime.now()
 timestamp_str = dateTimeObj.strftime("%Y-%m-%d %H:%M:%S")
 
 
+
+
 def verify_user():
     while True:
         print('-- Login below: --\n')
@@ -61,6 +63,7 @@ def verify_user():
                     
         except:
             pass
+
 
 
 
@@ -193,8 +196,6 @@ def conf_cont():
 
 
 
-
-
 def update_pass(new_value,user_id):
     password = new_value
     byte_pwd = password.encode('utf-8')
@@ -309,32 +310,7 @@ def search_user():
     rows = cursor.execute(f"""SELECT user_id, first_name, last_name, phone, email, date_created, hire_date, active, user_type 
     FROM Users WHERE first_name LIKE ? OR last_name LIKE ? OR user_id LIKE ? """,(search_term, search_term, search_term)).fetchall()
     print()
-    # print(rows)
-    # if rows == []:
-    #     print('-- There are no users in the system ')
     format_to_table(rows)
-
-# search_term = f"%{1}%"
-# rows = cursor.execute(f"""SELECT user_id, first_name, last_name, phone, email, date_created, hire_date, active, user_type 
-# FROM Users WHERE first_name LIKE ? OR last_name LIKE ? OR user_id LIKE ? """,(search_term, search_term, search_term)).fetchall()
-# print(rows)
-
-
-# def greatest_score(str_comp_name,query_results):
-#     try:
-#         lst_of_attempts = []
-#         for i in query_results:
-#             if str_comp_name in i:
-#                 lst_of_attempts.append(i)
-
-#         lst_of_scores = []
-#         for i in lst_of_attempts:
-#             qck_lst = list(i)
-#             lst_of_scores.append(qck_lst[4])
-  
-#         return(max(lst_of_scores))
-#     except:
-#         return '0'
 
 
 
@@ -369,12 +345,6 @@ def view_comp_sum(str_user_id):
     WHERE car.user_id = ?
     ''', (user_id))
 
-    # print(rows)
-    # print()
-    # print()
-    # if rows == []:
-    #     rows == [0]
-
     lst_results = []
     for i in rows:
         lst_results.append(i)
@@ -385,25 +355,8 @@ def view_comp_sum(str_user_id):
     for i in comp:
         lst_comp.append(str(i).replace(',','').strip('()').strip('\'\''))
 
-
-    # print('lst_results: ',lst_results)
-    # lst_results = [(7,'Test','Add','Verbal Communication',0,'999-999-9999','test_add@email.com')]
     print()
-    # print('lst_comp',lst_comp)
-    # print()
-    # print(lst_results)
     data = list(lst_results[0])
-    # print(data)
-
-    # print()
-    # print(lst_comp)
-    # print()
-
-
-
-    # print(greatest_score('Databases',lst_results))
-
-
     total = []
     for i in lst_comp:
         total.append(int(most_recent(i,lst_results)))
@@ -416,7 +369,6 @@ def view_comp_sum(str_user_id):
     for i in lst_data:
         column_sizes.append(len(i))
 
-    # print(column_sizes)
     print()
     count = 0
     for i in column_sizes:
@@ -442,17 +394,8 @@ def view_comp_sum(str_user_id):
             print(f"{lst_data[count]:{i+2}}", end = '')
         count += 1
     print()
-    # print(data[1] + ' ' + data[2])
 
-    # print(f"{'User Id:'}{'Name:'}{'Avg. Competency Score'}{'Phone'}{'Email:'}")
-    # print()
-    # print(f'''
-    # User id: {user_id} Name: {data[1]} {data[2]} Avg. Comptency Score: {avg_comp_score}
-
-    # Phone: {data[5]} Email: {data[6]}
-    # ''')
-
-    # ------------------- Needs to be most recent score not the highest...
+    # ------------------- name of variable in function misleading. It has been adjusted to show most recent. 
     print(f"\n{' Competencies:':28} {'Score:':7}")
     print(f" {'-'*17:27} {'-'*6:7}")
     for i in lst_comp:
@@ -460,8 +403,7 @@ def view_comp_sum(str_user_id):
         print(f" {i} {'.'* (28-length)} {most_recent(i,lst_results)}")
     print()
 
-# view_comp_sum('1')
-# view_comp_sum('1')
+
 
 
 def user_view_comp_sum(str_user_id):
@@ -504,12 +446,14 @@ def user_view_comp_sum(str_user_id):
     for i in comp:
         lst_comp.append(str(i).replace(',','').strip('()').strip('\'\''))
 
-    # ------------------- Needs to be most recent score not the highest...
+    # ------------------- name of variable in function misleading. It has beena adjusted to show most recent. 
     print(f"\n{' Competencies:':28} {'Score:':7}")
     print(f" {'-'*17:27} {'-'*6:7}")
+
     for i in lst_comp:
         length = len(i)
         print(f" {i} {'.'* (28-length)} {most_recent(i,lst_results)}")
+
     print()
 
 
@@ -521,14 +465,10 @@ def comp_result_sum(str_comp_id):
     def most_recent_2(user_id,str_comp_name,query_results):
         lst_of_attempts = []
         for i in query_results:
-            # print(i)
             if str_comp_name in i:
                 lst_of_attempts.append(i)
-        # print('list of attempts: ', lst_of_attempts)
         most_current = ''
         largest = '0'
-
-        # print(lst_of_attempts)
 
         for i in lst_of_attempts:
             # print(i)
@@ -625,139 +565,6 @@ def comp_result_sum(str_comp_id):
 
 
 
-def check_email(str_email_to_check):
-    rows = cursor.execute('SELECT email FROM Users')
-    lst_emails = []
-    for i in rows:
-        lst_emails.append(str(i).strip('()').replace(',','').replace('\"','').replace('\'',''))
-    print(lst_emails)
-    if str_email_to_check in lst_emails:
-        return 'error'
-    else:
-        return 'all good'
-
-
-
-
-def add_user():
-    columns = ['first name', 'last name','phone','email','password','active','date created','hire date','user type']
-
-    lst_answers = []
-    count = 0
-    for i in range(len(columns)):
-
-        if columns[i] == 'active':
-            ans = input(f"Make account {columns[i]}? (y) yes   (n) no \n>>> ")
-            if ans.lower() == 'n':
-                lst_answers.append('0')
-                os.system('clear')
-                continue
-            else:
-                lst_answers.append('1')
-                os.system('clear')
-                continue
-
-        if columns[i] == 'date created':
-            lst_answers.append(timestamp_str)
-            os.system('clear')
-            continue      
-
-        if columns[i] == 'hire date':
-            ans = input(f"Enter the {columns[i]} in the following format (YYYY-MM-DD hh:mm:ss): ")
-            lst_answers.append(ans)
-            os.system('clear')
-            continue
-
-        if columns[i] == 'user type':
-            ans = input(f"Enter {columns[i]}: (1) user   (2) manager \n>>> ")
-            if ans.lower() == '2':
-                lst_answers.append('manager')
-                os.system('clear')
-                continue
-            else:
-                lst_answers.append('user')
-                os.system('clear')
-                continue
-
-        # if columns[i] == 'email':
-        #     while 
-        #     if ans == '':
-        #         os.system('clear')
-        #         print('-- error: field cannot be blank --')
-        #         ans = input(f"Enter the {columns[i]}: ")
-        #     if check_email(ans) == 'error':
-        #         os.system('clear')
-        #         print('-- error: email already exsists --')
-        #         ans = input(f"Enter the {columns[i]}: ")
-        #     else:
-        #         lst_answers.append(ans)
-        #         os.system('clear')
-        #         break
-
-        os.system('clear')
-        ans = input(f"Enter the {columns[i]}: ")
-
-        while columns[i] == 'first name' and ans == '':
-            os.system('clear')
-            print('-- Error: field cannot be blank --')
-            ans = input(f"Enter the {columns[i]}: ")
-
-        while columns[i] == 'email' and ans == '' or columns[i] == 'email' and check_email(ans) == 'error':
-            if ans == '':  
-                os.system('clear')
-                print('-- Error: field cannot be blank --')
-                ans = input(f"Enter the {columns[i]}: ")
-            if check_email(ans) == 'error':
-                os.system('clear')
-                print('-- Error: email already exsists --')
-                ans = input(f"Enter the {columns[i]}: ")
-        
-        # while columns[i] == 'password' and ans == '':
-        #     os.system('clear')
-        #     print('-- error: field cannot be blank --')
-        #     ans = input(f"Enter the {columns[i]}: ")
-        while columns[i] == 'password': 
-            if ans == '':
-                os.system('clear')
-                print('-- error: field cannot be blank --')
-                ans = input(f"Enter the {columns[i]}: ")
-            if ans != '':
-                password = ans
-                byte_pwd = password.encode('utf-8')
-                my_salt = bcrypt.gensalt()
-                ans = bcrypt.hashpw(byte_pwd,my_salt)
-                break
-
-        
-        lst_answers.append(ans)
-        os.system('clear')
-
-    for i in lst_answers:
-        print(f"{i:len(i)+2}")
-    conf = input('''
-    Add this record to the database? \n (y) yes   (n) no \n>>> ''')
-
-    if conf.lower() == 'y':
-        cursor.execute('''INSERT INTO Users (
-        first_name,
-        last_name,
-        phone,
-        email,
-        password,
-        active,
-        date_created,
-        hire_date,
-        user_type)
-        VALUES (
-            ?,?,?,?,?,?,?,?,?
-        )''',(lst_answers[0],lst_answers[1],lst_answers[2],lst_answers[3],lst_answers[4],lst_answers[5],lst_answers[6],lst_answers[7],lst_answers[8]))
-        connection.commit()
-        print('\n-- User Added --\n')
-
-    else:
-        print('\n-- Action Cancelled --\n')
-
-
 
 def check_for_dupl(field,check_str):
     data = cursor.execute(f"SELECT {field} FROM Users")
@@ -773,8 +580,6 @@ def check_for_dupl(field,check_str):
         return 'all good'
 
 
-# print(check_for_dupl('email','manager_test@email.com'))
-# print(check_for_dupl('user_id','1'))
 
 
 def check_valid_id(user_id_str):
@@ -786,158 +591,7 @@ def check_valid_id(user_id_str):
         return 'all good'
     else:
         return 'error'
-    
 
-
-
-
-
-def mngr_update_user():
-    os.system('clear')
-    fields = {
-        '1':'user_id',
-        '2':'first_name',
-        '3':'last_name',
-        '4':'phone',
-        '5':'email',
-        '6':'password',
-        '7':'active',
-        '8':'date_created',
-        '9':'hire_date',
-        '10':'user_type'
-    }
-
-    user_id = input('Enter user id of account to update: ')
-
-    data = list(cursor.execute('SELECT user_id, first_name, last_name, phone, email, password, active, date_created, hire_date, user_type FROM Users WHERE user_id = ?',(user_id)).fetchone())
-
-    if str(data[6]) == '1':
-        active_sts = 'active'
-    elif str(data[6]) == '0':
-        active_sts = 'inactive'
-
-    field_sel = input(f'''
-What would you like to update? 
-
- (1)  User Id:        {data[0]}
- (2)  First Name:     {data[1]}
- (3)  Last Name:      {data[2]}
- (4)  Phone:          {data[3]}
- (5)  Email:          {data[4]}
- (6)  Password:       #####...
- (7)  Active Status:  {active_sts}
- (8)  Date Created:   {data[7]}
- (9)  Hire Date:      {data[8]}
- (10) User Type:      {data[9]}
-    
-    >>> ''')
-    print()
-    str_field = fields[field_sel]
-    str_field = str_field.replace('_',' ')
-
-
-    # print(data)
-
-    # print(fields[field_sel])
-
-    # print(type(fields[field_sel]))
-    # if fields[field_sel] == 'active':
-    #     print('True')
-    # else:
-    #     print('False')
-
-    if fields[field_sel] == 'active':
-        if str(data[6]) == '1':
-            check = input(f"Change {data[1] + ' ' + data[2]} to inactive? \n (y) yes   (n) no \n\n>>> ")
-            if check.lower() == 'y':
-                change_val = '0'
-            
-            else:
-                change_val = '1'
-            
-
-        elif str(data[6]) == '0':
-            check = input(f"Change {data[1] + ' ' +  data[2]} to active? \n (y) yes   (n) no \n\n>>> ")
-            if check.lower() == 'y':
-                change_val = '1'
-            
-            else:
-                change_val = '0'
-            
-
-    elif fields[field_sel] == 'user_type':
-        if str(data[9]) == 'manager':
-            check = input(f"Change {data[1] + ' ' +  data[2]}'s user type to 'user'? \n (y) yes   (n) no \n\n>>> ")
-            if check.lower() == 'y':
-                change_val = 'user'
-                
-            else:
-                change_val = 'manager'
-            
-
-        elif str(data[9]) == 'user':
-            check = input(f"Change {data[1] + ' ' +  data[2]}'s user type to 'manager'? \n (y) yes   (n) no \n\n>>> ")
-            if check.lower() == 'y':
-                change_val = 'manager'
-            
-            else:
-                change_val = 'user'
-
-    elif fields[field_sel] == 'phone':
-        change_val = input(f'Enter the new {str_field} #: ')
-
-    elif fields[field_sel] == 'date_created':
-        change_val = input(f'Enter the new {str_field} in the following format (YYYY-MM-DD hh:mm:ss): ')
-
-    elif fields[field_sel] == 'hire_date':
-        change_val = input(f'Enter the new {str_field}: in the following format (YYYY-MM-DD hh:mm:ss)')
-            
-    else:
-        while True:
-            change_val = input(f'Enter the new {str_field}: ')
-            if fields[field_sel] == 'user_id' and change_val == '' or fields[field_sel] == 'email' and change_val == '' or fields[field_sel] == 'password' and change_val == '' or fields[field_sel] == 'first_name' and change_val == '':
-                print('\n-- Error: field cannot be blank --\n')
-            elif fields[field_sel] == 'user_id' and check_for_dupl(fields[field_sel],change_val) == 'error' or fields[field_sel] == 'email' and check_for_dupl(fields[field_sel],change_val) == 'error':
-                print(f'\n-- Error: this {str_field} is assigned to another user --\n')
-            else:
-                break
-    
-    if fields[field_sel] == 'user_type' and check.lower() == 'y' or fields[field_sel] == 'active' and check.lower() == 'y':
-        cursor.execute(f'''UPDATE Users SET {fields[field_sel]} = ? WHERE user_id = ?''',(change_val,user_id))
-        connection.commit()
-        print('\n-- User Updated -- \n')
-
-    elif fields[field_sel] == 'user_type' and check.lower() == 'n' or fields[field_sel] == 'active' and check.lower() == 'n':
-        print('\n-- Action Cancelled --\n')
-
-    elif fields[field_sel] == 'password':
-        print()
-        conf = input(f"Update {data[1] + ' ' +  data[2]}'s {str_field} to: {change_val}? \n (y) yes   (n) no \n\n>>> ")
-        if conf.lower() == 'y':
-            password = change_val
-            byte_pwd = password.encode('utf-8')
-            my_salt = bcrypt.gensalt()
-            hash_pw = bcrypt.hashpw(byte_pwd,my_salt)
-            cursor.execute(f'''UPDATE Users SET password = ? WHERE user_id = ?''',(hash_pw,user_id))
-            connection.commit()
-            print('\n-- User Updated -- \n')
-        else:
-            print('\n-- Action Cancelled --\n')
-
-
-    # if fields[field_sel] != 'user_type' or fields[field_sel] != 'active':
-    # else:
-    # print('\npreview\n')
-    else:
-        print()
-        conf = input(f"Update {data[1] + ' ' +  data[2]}'s {str_field} to {change_val}? \n (y) yes   (n) no \n\n>>> ")
-        # from {data[int(field_sel)-1]} 
-        if conf.lower() == 'y':
-            cursor.execute(f'''UPDATE Users SET {fields[field_sel]} = ? WHERE user_id = ?''',(change_val,user_id))
-            connection.commit()
-            print('\n-- User Updated -- \n')
-        else:
-            print('\n-- Action Cancelled --\n')
 
 
 
@@ -955,9 +609,10 @@ def check_for_dupl_2(field,table,check_str):
         return 'all good'
 
 
+
+
 def int_pk_check(field,table):
     while True:
-        # field = str(field).replace('_',' ')
         if field == 'assessment_id':
             ans = input('Enter an assessment id: ')
         else:
@@ -975,10 +630,11 @@ def int_pk_check(field,table):
             else:
                 return ans
        
-        
         if ans != '' and ans.isdigit() == False:
             os.system('clear')
             print(f'-- Error: {field} must be a number -- \n')
+
+
 
 
 def create_preview(lst_headers,lst_answers):
@@ -992,6 +648,7 @@ def create_preview(lst_headers,lst_answers):
             col_size = max(len(str(lst_headers[count])),len(str(lst_answers[count])))
             print(f"{str(i).replace('_',' ').title() + ': ' :{col_size + 2}}", end = ' ')
         count += 1
+
     print()
     count = 0
     for i in lst_headers:
@@ -1002,6 +659,7 @@ def create_preview(lst_headers,lst_answers):
             col_size = max(len(str(lst_headers[count])),len(str(lst_answers[count])))
             print(f"{ '-' * (int(col_size) + 1):{col_size + 2}}", end = ' ')
         count += 1
+
     print()
     count = 0
     for i in lst_answers:
@@ -1016,16 +674,14 @@ def create_preview(lst_headers,lst_answers):
     print()
     print()
 
+
+
+
 def check_valid_fk(str_field, str_table, str_check_val):
     data = cursor.execute(f'SELECT {str_field} FROM {str_table}')
     lst_data = []
     for i in data:
-        # print(i)
         lst_data.append((str(i).replace('\'','').replace(',','').strip('()')))
-        # lst_data.append(str(i).strip('()').replace(',','').replace('\"',''))
-
-    # print(lst_data)
-    # print(str_check_val)
 
     if str_check_val in lst_data:
         return 'all good'
@@ -1035,13 +691,13 @@ def check_valid_fk(str_field, str_table, str_check_val):
         return 'error'
 
 
+
+
 def check_valid_mngr(str_check_val):
     data = cursor.execute(f"SELECT user_id FROM Users WHERE active = '1' and user_type = 'manager'")
     lst_data = []
     for i in data:
         lst_data.append(str(i).strip('()').replace(',',''))
-
-    # print(lst_data)
 
     if str_check_val in lst_data:
         return 'all good'
@@ -1070,13 +726,11 @@ def mngr_add(sel):
     print(names)
     for i in names:
         os.system('clear')
-        # print(i)
         lst_fields.append(i)
 
         if i == 'competency_id':
             os.system('clear')
             lst_values.append(int_pk_check(i,table))
-            # lst_values.append(pk_check(i,table))
             continue
 
         if i == 'user_id' and table == 'Users':
@@ -1233,23 +887,28 @@ def mngr_add(sel):
                 if ans.isdigit() == False and ans != '':
                     os.system('clear')
                     print('-- Error: invalid score input --\n')
-                    # input('enter to continue (in option 1)')
                     continue
+
                 if check_valid_fk(i,'Scores',ans) == 'error':
                     os.system('clear')
                     print('-- Error: invalid score input --\n')
-                    # input('enter to continue (in option 2)')
                     continue
+
                 if ans == '':
                     lst_values.append('-')
                     break
+
                 else:
                     lst_values.append(ans)
                     break
+
             continue
 
         if i == 'manager' and table == 'Competency_Assessment_Results':
             os.system('clear')
+            format_to_table(cursor.execute("SELECT user_id, first_name, last_name FROM Users WHERE user_type = 'manager'").fetchall())
+            print()
+            print()
             while True:
                 ans = input("Enter the manager's user id: ")
                 if check_valid_mngr(ans) == 'error':
@@ -1287,24 +946,18 @@ def mngr_add(sel):
                     break
             continue
 
-
         os.system('clear')
         ans = input(f"Enter a {str(i).replace('_',' ')}: ")
         lst_values.append(ans)
 
     str_lst_fields = str(lst_fields).strip('[]').replace('\'','')
-    # print(str_lst_fields)
 
     data_bind = '?,' * len(lst_fields)
     data_bind = f"({data_bind.strip(',')})"
-    # print(data_bind)
 
     tuple_values = tuple(lst_values)
-    # print(tuple_values)
     
     os.system('clear')
-    print(names)
-    print(lst_values)
     create_preview(names,lst_values)
 
     conf = input('Add this record to the database? \n (y) yes   (n) no \n\n>>> ')
@@ -1317,7 +970,6 @@ def mngr_add(sel):
         os.system('clear')
         print('\n-- Action Cancelled --\n')
 
-# mngr_add('4')
 
 
 
@@ -1334,11 +986,10 @@ def mngr_update(table,identifier):
 
     data = list(cursor.execute(f"SELECT * FROM {table} WHERE {some_id} = ?",(identifier,)).fetchone())
     names = list(map(lambda x: x[0], cursor.description))
-    # print(data)
+
     os.system('clear')
     while True:
         print('Which field would you like to update?\n')
-        # print('---------------------------------------')
 
         count = 1
         for i in names:
@@ -1375,20 +1026,11 @@ def mngr_update(table,identifier):
             print('-- Error: must select number from the following options --\n')
 
     col_name = names[int(col_name) - 1]
-    # print(col_name)
 
-    # update_val = input(f"Enter the new {str(col_name).replace('_',' ')}: ")
-    
-
-    # for i in names:
-    #     os.system('clear')
-    #     # print(i)
-    #     lst_fields.append(i)
     while True:
         if col_name == 'competency_id':
             os.system('clear')
             update_val = int_pk_check(col_name,table)
-            # lst_values.append(pk_check(i,table))
             break
 
         if col_name == 'user_id' and table == 'Users':
@@ -1628,6 +1270,8 @@ def mngr_update(table,identifier):
         print('-- Action Cancelled --\n')
 
 
+
+
 def delete_assessment():
     os.system('clear')
     while True:
@@ -1672,8 +1316,8 @@ def delete_assessment():
         os.system('clear')
         print('-- Action Cancelled --\n')
 
-# delete_assessment()
-# mngr_update('Competency_Assessment_Results','1')
+
+
 
 def generate_csv():
     user_sel = input('Select which file you would like to export: \n (1) Competencies \n (2) Competency Assessment Data \n (3) Users \n (4) Compentcy Assessment Results\n\n>>> ')
@@ -1747,10 +1391,8 @@ def generate_csv():
         print('-- CSV file generated named : Comp_Assess_Results.csv --\n')
 
 
-# generate_csv()
 
-# for Competency_Assessment_Results
-# def import_csv():
+
 
 def import_csv():
     conf = input('Import data from the Import_Comp_Results.csv? \n*** NOTE: This will permanately delete currently existing data in the Competency Assessement Results table.\n\n (y) yes   (n) no \n\n>>> ')
@@ -1782,7 +1424,6 @@ def import_csv():
                 for i in results:
                     try:
                         i = list(i)
-                        # print(i[0],i[1],i[2],i[3])
                         cursor.execute(f'''INSERT INTO Competency_Assessment_Results (user_id, assessment,score, date_taken) VALUES (?,?,?,?)''',(i[0],i[1],i[2],i[3]))
                     except:
                         continue
@@ -1795,7 +1436,6 @@ def import_csv():
                 for i in results:
                     try:
                         i = list(i)
-                        # print(i[0],i[1],i[2],i[3])
                         cursor.execute(f'''INSERT INTO Competency_Assessment_Results (user_id, assessment,score, date_taken,manager) VALUES (?,?,?,?,?)''',(i[0],i[1],i[2],i[3],i[4]))
                     except:
                         continue
@@ -1808,9 +1448,6 @@ def import_csv():
                 for i in results:
                     try:
                         i = list(i)
-                        # print(i[0],i[1],i[2],i[3])
-                        # print(i[4])
-                        # input('enter to continue')
                         cursor.execute(f'''INSERT INTO Competency_Assessment_Results (user_id, assessment,score, date_taken,manager,test_result_id) VALUES (?,?,?,?,?,?)''',(i[0],i[1],i[2],i[3],i[4],i[5]))
                     except:
                         continue

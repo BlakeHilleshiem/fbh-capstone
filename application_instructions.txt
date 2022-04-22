@@ -1,5 +1,7 @@
 -- How to use application -- 
 
+From the login screen you will be prompted for a login. Based on what user type the user is assigned it affects what options are available. 
+
 You can use the following logins to test the options:
 manager test: 
     email: manager_test@email.com  
@@ -14,6 +16,14 @@ inactive_test:
     password: slack
 
 
+The Import CSV option takes data from the Import_Comp_Results.csv. If you want to import data, this csv with this exact name must be updated. 
+In test.py, there is a function to generate data for the Import_Comp_Results.csv. (Instructions are also there, commented out)
+    In the generate_import() function you can pass in a list of lists formated in order of colomns to add to csv. The dataset variables below the function have some options you can use. 
+
+
+
+
+
 
 
 
@@ -21,7 +31,7 @@ inactive_test:
 
 Note: I've been noticing that some of the parts of my program will occasionally not peform as intended. 
 Issues being my while loops on my option functions being ignored
-or partial input in my sql insert commands. I'm not sure if has to do with the size of the program or my computer's capacity to handle it. 
+or partial completion of my sql insert commands. I'm not sure if has to do with the size of the program or my computer's capacity to handle it. 
 Just thought I'd mention if you come accross it. 
 
 
